@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>刺猬心情</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(180deg, #dbefff, #f5faff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      text-align: center;
+      padding: 40px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.6);
+      backdrop-filter: blur(10px);
+      border-radius: 30px;
+      padding: 40px 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+
+    .icon {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .icon img {
+      width: 100px;
+      height: 100px;
+    }
+
+    h1 {
+      margin: 10px 0 20px;
+      font-size: 28px;
+      color: #333;
+    }
+
+    .buttons {
+      margin-top: 30px;
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 14px 28px;
+      border-radius: 999px;
+      font-size: 16px;
+      color: white;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .android {
+      background: linear-gradient(135deg, #6cc6ff, #4aa3df);
+    }
+
+    .ios {
+      background: linear-gradient(135deg, #a98bff, #7a5cff);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+    }
+
+    .desc {
+      margin-top: 10px;
+      color: #666;
+      font-size: 14px;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="card">
+
+      <!-- icon -->
+      <div class="icon">
+        <!-- 换成你的icon -->
+        <img src="https://via.placeholder.com/100" alt="app icon">
+      </div>
+
+      <h1>刺猬心情</h1>
+      <div class="desc">记录你的每一天情绪 🌤️</div>
+
+      <!-- 下载按钮 -->
+      <div class="buttons">
+        <a class="btn android" href="https://test1.com" target="_blank">
+          安卓下载
+        </a>
+
+        <a class="btn ios" href="https://test2.com" target="_blank">
+          iOS下载
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
