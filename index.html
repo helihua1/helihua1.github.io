@@ -1,123 +1,545 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <title>刺猬心情</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>小刺猬日记 | HedgeNest</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            mist: '#EAF1F7',
+            sky: '#DDE9F5',
+            cloud: '#F7FAFD',
+            ink: '#2D3A4D',
+            calm: '#86A8C7',
+            mint: '#A7D7C5',
+            peach: '#F3D9C3',
+            badge: '#7CA2C9'
+          },
+          fontFamily: {
+            rounded: ['Nunito', 'Noto Sans SC', 'sans-serif']
+          },
+          boxShadow: {
+            soft: '0 10px 30px rgba(124, 162, 201, 0.18), 0 2px 10px rgba(45,58,77,0.06)',
+            insetSoft: 'inset 6px 6px 16px rgba(130, 154, 178, 0.20), inset -6px -6px 16px rgba(255,255,255,0.85)'
+          }
+        }
+      }
+    }
+  </script>
   <style>
+    :root { color-scheme: light; }
     body {
-      margin: 0;
-      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
-      background: linear-gradient(180deg, #dbefff, #f5faff);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      font-family: 'Nunito', 'Noto Sans SC', sans-serif;
+      background: linear-gradient(180deg, #edf4fb 0%, #e7f0f8 36%, #f7fbff 100%);
+      color: #2d3a4d;
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.9);
+    }
+    .soft-card {
+      background: linear-gradient(145deg, #f8fcff, #e9f2fa);
+      border: 1px solid rgba(255,255,255,0.9);
+      box-shadow: 0 12px 30px rgba(124,162,201,0.2), inset 0 1px 0 rgba(255,255,255,0.8);
+    }
+    .organic-blob {
+      border-radius: 42% 58% 62% 38% / 44% 46% 54% 56%;
+    }
+    .spike-divider {
+      background-image: radial-gradient(circle at 10px -6px, #bdd0e3 16px, transparent 17px);
+      background-size: 20px 16px;
+      background-repeat: repeat-x;
+      height: 18px;
+      opacity: 0.55;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
     }
 
-    .container {
-      text-align: center;
-      padding: 40px;
+    .ip-card {
+      transform-style: preserve-3d;
     }
 
-    .card {
-      background: rgba(255,255,255,0.6);
-      backdrop-filter: blur(10px);
-      border-radius: 30px;
-      padding: 40px 30px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    .ip-card img,
+    .ip-card span,
+    .ip-card p {
+      transform: translateZ(18px);
     }
 
-    .icon {
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      background: #ffffff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 0 auto 20px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    }
-
-    .icon img {
-      width: 100px;
-      height: 100px;
-    }
-
-    h1 {
-      margin: 10px 0 20px;
-      font-size: 28px;
-      color: #333;
-    }
-
-    .buttons {
-      margin-top: 30px;
-      display: flex;
-      gap: 15px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      padding: 14px 28px;
-      border-radius: 999px;
-      font-size: 16px;
-      color: white;
-      text-decoration: none;
-      transition: all 0.2s;
-    }
-
-    .android {
-      background: linear-gradient(135deg, #6cc6ff, #4aa3df);
-    }
-
-    .ios {
-      background: linear-gradient(135deg, #a98bff, #7a5cff);
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 15px rgba(0,0,0,0.1);
-    }
-
-    .desc {
-      margin-top: 10px;
-      color: #666;
-      font-size: 14px;
-    }
 
   </style>
 </head>
+<body class="antialiased">
+  <svg width="0" height="0" class="absolute">
+    <symbol id="hedgehog-icon" viewBox="0 0 64 64">
+      <path d="M14 34c1-9 8-17 18-19l2-4 3 4 3-4 2 4c10 2 17 10 18 19-1 10-10 18-23 18S15 44 14 34Z" fill="#A8C5DF"/>
+      <ellipse cx="32" cy="38" rx="18" ry="14" fill="#F4E8DA"/>
+      <circle cx="25" cy="36" r="2.1" fill="#3B4C63"/>
+      <circle cx="38" cy="36" r="2.1" fill="#3B4C63"/>
+      <ellipse cx="32" cy="42" rx="3.3" ry="2" fill="#DFAF9A"/>
+      <circle cx="20" cy="42" r="1.8" fill="#E6BFB2"/>
+      <circle cx="44" cy="42" r="1.8" fill="#E6BFB2"/>
+    </symbol>
+    <symbol id="leaf-icon" viewBox="0 0 24 24">
+      <path d="M20 4c-8 1-13 6-14 14 8-1 13-6 14-14Z" fill="#9ECDBB"/>
+      <path d="M6 18c2-3 5-5 10-7" stroke="#5F8F7E" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="spark-icon" viewBox="0 0 24 24">
+      <path d="M12 2 14.2 9.8 22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2L12 2Z" fill="#F2DCC4"/>
+    </symbol>
+  </svg>
 
-<body>
-
-  <div class="container">
-    <div class="card">
-
-      <!-- icon -->
-      <div class="icon">
-        <!-- 换成你的icon -->
-        <img src="https://via.placeholder.com/100" alt="app icon">
-      </div>
-
-      <h1>刺猬心情</h1>
-      <div class="desc">记录你的每一天情绪 🌤️</div>
-
-      <!-- 下载按钮 -->
-      <div class="buttons">
-        <a class="btn android" href="https://test1.com" target="_blank">
-          安卓下载
+  <header class="sticky top-0 z-50 px-4 pt-4">
+    <div class="mx-auto max-w-6xl glass rounded-3xl shadow-soft px-4 py-3 md:px-6">
+      <div class="flex items-center justify-between">
+        <a href="#hero" class="flex items-center gap-2 cursor-pointer">
+          <div class="h-9 w-9 rounded-2xl bg-white shadow-insetSoft grid place-items-center">
+            <svg class="h-7 w-7"><use href="#hedgehog-icon"/></svg>
+          </div>
+          <div>
+            <p class="text-sm font-bold text-ink">HedgeNest</p>
+            <p class="text-xs text-slate-500" data-i18n="brandSub">温柔记录每一天</p>
+          </div>
         </a>
-
-        <a class="btn ios" href="https://test2.com" target="_blank">
-          iOS下载
-        </a>
+        <nav class="hidden md:flex items-center gap-6 text-sm text-slate-600">
+          <a href="#features" class="hover:text-ink transition-colors" data-i18n="navFeatures">功能</a>
+          <a href="#insights" class="hover:text-ink transition-colors" data-i18n="navInsights">图表洞察</a>
+          <a href="#community" class="hover:text-ink transition-colors" data-i18n="navCommunity">社区</a>
+          <a href="#expert" class="hover:text-ink transition-colors" data-i18n="navExpert">专家分析</a>
+          <a href="#updates" class="hover:text-ink transition-colors" data-i18n="navUpdates">更新日志</a>
+        </nav>
+        <button id="langBtn" class="cursor-pointer rounded-2xl bg-white px-4 py-2 text-sm font-semibold text-ink shadow-soft transition hover:-translate-y-0.5 motion-reduce:transform-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-badge">
+          EN
+        </button>
       </div>
+    </div>
+  </header>
 
+  <main>
+    <section id="hero" class="relative overflow-hidden px-4 pt-10 md:pt-16">
+      <div class="pointer-events-none absolute -left-20 top-24 h-44 w-44 organic-blob bg-mint/35 blur-xl"></div>
+      <div class="pointer-events-none absolute -right-20 top-10 h-56 w-56 organic-blob bg-calm/30 blur-xl"></div>
+
+      <div class="mx-auto max-w-6xl grid gap-8 lg:grid-cols-2">
+        <div class="space-y-6">
+          <span class="inline-flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 text-xs font-semibold text-badge shadow-soft">
+            <svg class="h-4 w-4"><use href="#leaf-icon"/></svg>
+            <span data-i18n="heroTag">情绪陪伴 · 生活记录 · 心理洞察</span>
+          </span>
+
+          <h1 class="text-4xl md:text-5xl font-extrabold leading-tight text-ink">
+            <span data-i18n="heroTitle1">和小刺猬一起，</span><br />
+            <span class="text-badge" data-i18n="heroTitle2">把今天好好放进心里</span>
+          </h1>
+          <p class="max-w-xl text-slate-600 text-base md:text-lg" data-i18n="heroDesc">
+            一款结合情绪记录、日常日志、社区表达与专业分析的温柔型成长 app。轻松输入，清晰回看，稳定前行。
+          </p>
+
+          <div class="flex flex-wrap gap-3">
+            <a href="https://test1.com" target="_blank" rel="noopener" class="cursor-pointer rounded-2xl bg-ink text-white px-5 py-3 font-semibold shadow-soft transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-ink" data-i18n="androidBtn">
+              安卓下载
+            </a>
+            <a href="https://test2.com" target="_blank" rel="noopener" class="cursor-pointer rounded-2xl bg-white text-ink px-5 py-3 font-semibold shadow-soft transition hover:-translate-y-0.5 motion-reduce:transform-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-badge" data-i18n="iosBtn">
+              iOS 下载
+            </a>
+          </div>
+
+          <div class="flex items-center gap-4 text-sm text-slate-500">
+            <div class="flex items-center gap-1">
+              <svg class="h-4 w-4"><use href="#spark-icon"/></svg>
+              <span data-i18n="heroTrust1">温和提醒，不制造焦虑</span>
+            </div>
+            <div class="h-4 w-px bg-slate-300"></div>
+            <span data-i18n="heroTrust2">记录和回顾都很直觉</span>
+          </div>
+        </div>
+
+        <div class="relative [perspective:1200px]">
+  <div id="ipCard" class="ip-card soft-card rounded-[2rem] p-5 md:p-6 transition-transform duration-200 ease-out will-change-transform">
+    <div class="flex items-center justify-between gap-3">
+      <div>
+        <p class="text-sm text-slate-500" data-i18n="ipLabel">品牌 IP</p>
+        <p class="text-lg md:text-xl font-bold text-ink" data-i18n="ipName">小刺猬 · 安心伙伴</p>
+      </div>
+      <span class="rounded-full bg-white/90 px-3 py-1 text-xs text-slate-500" data-i18n="ipBadge">主视觉</span>
+    </div>
+
+    <div class="mt-4 rounded-[1.5rem] bg-white/80 p-3 shadow-soft">
+      <img
+        src="./img/main.png"
+        alt="小刺猬 IP 主形象"
+        class="mx-auto h-48 md:h-60 w-auto object-contain pointer-events-none select-none"
+      />
     </div>
   </div>
+</div>
+      </div>
+    </section>
 
+    <div class="mx-auto max-w-6xl px-4 mt-12"><div class="spike-divider"></div></div>
+
+    <section id="features" class="px-4 py-14">
+      <div class="mx-auto max-w-6xl">
+        <div class="text-center mb-10">
+          <h2 class="text-3xl font-bold text-ink" data-i18n="featuresTitle">四个核心能力，温柔但有力量</h2>
+          <p class="mt-3 text-slate-600" data-i18n="featuresDesc">从记录到洞察，从独处到连接，形成完整的自我照顾闭环。</p>
+        </div>
+
+
+      </div>
+    </section>
+
+    <section id="insights" class="px-4 pb-14">
+      <div class="mx-auto max-w-6xl soft-card rounded-[2rem] p-6 md:p-10">
+        <div class="grid gap-8 lg:grid-cols-2">
+          <div>
+            <p class="text-sm text-badge font-semibold" data-i18n="chartTag">图表与洞察</p>
+            <h2 class="text-3xl font-bold text-ink mt-2" data-i18n="chartTitle">记录如何变成直观图表</h2>
+            <p class="mt-3 text-slate-600" data-i18n="chartDesc">你每天的情绪、精力和事件标签，会被整理成可读性很高的可视化，让复盘更轻松。</p>
+            <div class="mt-5 grid grid-cols-2 gap-3 text-sm">
+              <div class="rounded-2xl bg-white p-4 shadow-soft">
+                <p class="text-slate-500" data-i18n="chartMetric1">连续记录</p>
+                <p class="text-2xl font-bold text-ink">28 <span class="text-sm" data-i18n="days">天</span></p>
+              </div>
+              <div class="rounded-2xl bg-white p-4 shadow-soft">
+                <p class="text-slate-500" data-i18n="chartMetric2">状态稳定度</p>
+                <p class="text-2xl font-bold text-ink">82%</p>
+              </div>
+            </div>
+          </div>
+          <div class="grid gap-4">
+            <div class="rounded-2xl bg-white p-4 shadow-soft">
+              <p class="text-sm font-semibold text-slate-600 mb-3" data-i18n="mockTrend">情绪趋势（示意）</p>
+              <div class="flex items-end gap-2 h-32">
+                <div class="w-7 rounded-t-xl bg-calm/55 h-20"></div>
+                <div class="w-7 rounded-t-xl bg-calm/70 h-24"></div>
+                <div class="w-7 rounded-t-xl bg-calm h-16"></div>
+                <div class="w-7 rounded-t-xl bg-calm/80 h-28"></div>
+                <div class="w-7 rounded-t-xl bg-calm/60 h-22"></div>
+                <div class="w-7 rounded-t-xl bg-calm/75 h-30"></div>
+              </div>
+            </div>
+            <div class="rounded-2xl bg-white p-4 shadow-soft">
+              <p class="text-sm font-semibold text-slate-600 mb-3" data-i18n="mockDonut">情绪构成（示意）</p>
+              <div class="h-28 w-28 mx-auto rounded-full" style="background: conic-gradient(#86A8C7 0 42%, #A7D7C5 42% 72%, #F3D9C3 72% 100%);"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="community" class="px-4 pb-14">
+      <div class="mx-auto max-w-6xl">
+        <div class="mb-6">
+          <h2 class="text-3xl font-bold text-ink" data-i18n="communityTitle">分享日常的温暖社区</h2>
+          <p class="mt-2 text-slate-600" data-i18n="communityDesc">按不同专题表达自己，在友好氛围里被看见、被理解。</p>
+        </div>
+        <div class="flex flex-wrap gap-2 mb-5 text-sm">
+          <span class="rounded-full bg-white px-3 py-1 shadow-soft"># <span data-i18n="tag1">通勤心情</span></span>
+          <span class="rounded-full bg-white px-3 py-1 shadow-soft"># <span data-i18n="tag2">失眠互助</span></span>
+          <span class="rounded-full bg-white px-3 py-1 shadow-soft"># <span data-i18n="tag3">周末复盘</span></span>
+          <span class="rounded-full bg-white px-3 py-1 shadow-soft"># <span data-i18n="tag4">职场压力释放</span></span>
+        </div>
+        <div class="grid gap-4 md:grid-cols-3">
+          <article class="soft-card rounded-3xl p-5">
+            <p class="text-xs text-slate-500" data-i18n="topic1Type">专题 · 今日感受</p>
+            <h3 class="mt-1 font-bold text-ink" data-i18n="topic1Title">“今天有点累，但我没有放弃自己”</h3>
+            <p class="mt-2 text-sm text-slate-600" data-i18n="topic1Body">下班后散步 15 分钟，情绪从 4/10 回到 6/10。谢谢大家的陪伴建议。</p>
+          </article>
+          <article class="soft-card rounded-3xl p-5">
+            <p class="text-xs text-slate-500" data-i18n="topic2Type">专题 · 生活记录</p>
+            <h3 class="mt-1 font-bold text-ink" data-i18n="topic2Title">“慢慢来，也是一种前进”</h3>
+            <p class="mt-2 text-sm text-slate-600" data-i18n="topic2Body">本周睡眠节奏更稳定了，分享我的晚间放松清单，希望对你有帮助。</p>
+          </article>
+          <article class="soft-card rounded-3xl p-5">
+            <p class="text-xs text-slate-500" data-i18n="topic3Type">专题 · 成长复盘</p>
+            <h3 class="mt-1 font-bold text-ink" data-i18n="topic3Title">“情绪不是敌人，是信号”</h3>
+            <p class="mt-2 text-sm text-slate-600" data-i18n="topic3Body">学会给压力命名后，我更知道自己真正需要什么。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="expert" class="px-4 pb-14">
+      <div class="mx-auto max-w-6xl soft-card rounded-[2rem] p-6 md:p-10">
+        <div class="grid gap-8 lg:grid-cols-2">
+          <div>
+            <p class="text-sm text-badge font-semibold" data-i18n="expertTag">专家分析</p>
+            <h2 class="text-3xl font-bold text-ink mt-2" data-i18n="expertTitle">专业、平静、可信赖的心理视角</h2>
+            <p class="mt-3 text-slate-600" data-i18n="expertDesc">基于你的连续记录，从情绪波动、压力来源与恢复行为三个层面给出建议，不贴标签，不制造恐惧。</p>
+            <div class="mt-5 space-y-3 text-sm">
+              <div class="rounded-2xl bg-white p-4 shadow-soft" data-i18n="expertPoint1">近期压力高峰多出现在周一晚间，建议提前安排“过渡时段”。</div>
+              <div class="rounded-2xl bg-white p-4 shadow-soft" data-i18n="expertPoint2">运动后 2 小时内情绪显著回升，可作为稳定策略保留。</div>
+              <div class="rounded-2xl bg-white p-4 shadow-soft" data-i18n="expertPoint3">建议下周加入 2 次 10 分钟呼吸练习，降低躯体紧张反应。</div>
+            </div>
+          </div>
+          <div class="rounded-3xl bg-white p-5 shadow-soft">
+            <p class="text-sm text-slate-500" data-i18n="reportHead">专家报告预览</p>
+            <div class="mt-3 rounded-2xl border border-slate-200 p-4">
+              <h3 class="font-bold text-ink" data-i18n="reportTitle">本周心理状态摘要</h3>
+              <p class="mt-2 text-sm text-slate-600" data-i18n="reportBody">
+                你的整体情绪较上周趋稳，负面峰值出现频次下降。工作场景触发依然明显，但恢复速度提升，说明自我调节正在生效。
+              </p>
+              <div class="mt-4 flex gap-2 text-xs">
+                <span class="rounded-full bg-mint/40 px-3 py-1" data-i18n="reportTag1">节律改善</span>
+                <span class="rounded-full bg-sky/50 px-3 py-1" data-i18n="reportTag2">恢复增强</span>
+                <span class="rounded-full bg-peach/60 px-3 py-1" data-i18n="reportTag3">压力可控</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="updates" class="px-4 pb-16">
+      <div class="mx-auto max-w-6xl">
+        <div class="mb-6">
+          <h2 class="text-3xl font-bold text-ink" data-i18n="updatesTitle">日志更新状况</h2>
+          <p class="mt-2 text-slate-600" data-i18n="updatesDesc">持续打磨使用体验，保持稳定与温柔并行。</p>
+        </div>
+        <div class="grid gap-4 md:grid-cols-3">
+          <article class="soft-card rounded-3xl p-5">
+            <p class="text-xs text-slate-500">v1.6.0 · 2026-03-10</p>
+            <h3 class="mt-2 font-bold text-ink" data-i18n="u1t">新增情绪趋势周视图</h3>
+            <p class="mt-2 text-sm text-slate-600" data-i18n="u1d">支持按周回看情绪波动和关键触发事件，复盘更清晰。</p>
+          </article>
+          <article class="soft-card rounded-3xl p-5">
+            <p class="text-xs text-slate-500">v1.5.2 · 2026-02-26</p>
+            <h3 class="mt-2 font-bold text-ink" data-i18n="u2t">社区专题排序优化</h3>
+            <p class="mt-2 text-sm text-slate-600" data-i18n="u2d">高互动、高支持度内容优先展示，讨论更聚焦更友好。</p>
+          </article>
+          <article class="soft-card rounded-3xl p-5">
+            <p class="text-xs text-slate-500">v1.5.0 · 2026-02-08</p>
+            <h3 class="mt-2 font-bold text-ink" data-i18n="u3t">专家分析语言升级</h3>
+            <p class="mt-2 text-sm text-slate-600" data-i18n="u3d">分析文本更平静、易懂，并增加行动建议的可执行性。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="px-4 pb-8">
+    <div class="mx-auto max-w-6xl glass rounded-3xl shadow-soft p-6">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+        <div>
+          <p class="font-bold text-ink">HedgeNest</p>
+          <p class="text-sm text-slate-500" data-i18n="footerBrand">小刺猬陪你记录情绪、生活与成长</p>
+        </div>
+        <div class="text-sm text-slate-500 flex gap-4">
+          <a href="#hero" class="hover:text-ink transition-colors" data-i18n="footerTop">回到顶部</a>
+          <span data-i18n="footerLang">语言切换：右上角 EN / 中文</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+      const ipCard = document.getElementById('ipCard');
+
+  if (ipCard && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    ipCard.addEventListener('mousemove', (e) => {
+      const rect = ipCard.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const rotateY = ((x / rect.width) - 0.5) * 16;
+      const rotateX = (0.5 - (y / rect.height)) * 16;
+
+      ipCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+
+    ipCard.addEventListener('mouseleave', () => {
+      ipCard.style.transform = 'rotateX(0) rotateY(0)';
+    });
+  }
+    const copy = {
+      zh: {
+        brandSub: '温柔记录每一天',
+        navFeatures: '功能',
+        navInsights: '图表洞察',
+        navCommunity: '社区',
+        navExpert: '专家分析',
+        navUpdates: '更新日志',
+        heroTag: '情绪陪伴 · 生活记录 · 心理洞察',
+        heroTitle1: '和小刺猬一起，',
+        heroTitle2: '把今天好好放进心里',
+        heroDesc: '一款结合情绪记录、日常日志、社区表达与专业分析的温柔型成长 app。轻松输入，清晰回看，稳定前行。',
+        androidBtn: '安卓下载',
+        iosBtn: 'iOS 下载',
+        heroTrust1: '温和提醒，不制造焦虑',
+        heroTrust2: '记录和回顾都很直觉',
+        ipLabel: '品牌 IP',
+        ipName: '小刺猬 · 安心伙伴',
+        ipBadge: '主视觉形象',
+        shotA: 'App 界面预留 A',
+        shotB: 'App 界面预留 B',
+        nestHint: '像一个随时可回来的安心角落',
+        featuresTitle: '四个核心能力，温柔但有力量',
+        featuresDesc: '从记录到洞察，从独处到连接，形成完整的自我照顾闭环。',
+        f1t: '多维记录 + 自由输入',
+        f1d: '工作、生活、情绪等维度统一记录，也可随手写下当下心情。',
+        f2t: '每日图表与总结',
+        f2d: '记录自动转化为趋势图和可视化摘要，变化一目了然。',
+        f3t: '专题社区交流',
+        f3d: '按专题分享真实生活，获得理解、共鸣和实用回应。',
+        f4t: '心理专家视角分析',
+        f4d: '基于长期记录生成温和、专业、可执行的心理状态建议。',
+        chartTag: '图表与洞察',
+        chartTitle: '记录如何变成直观图表',
+        chartDesc: '你每天的情绪、精力和事件标签，会被整理成可读性很高的可视化，让复盘更轻松。',
+        chartMetric1: '连续记录',
+        days: '天',
+        chartMetric2: '状态稳定度',
+        mockTrend: '情绪趋势（示意）',
+        mockDonut: '情绪构成（示意）',
+        communityTitle: '分享日常的温暖社区',
+        communityDesc: '按不同专题表达自己，在友好氛围里被看见、被理解。',
+        tag1: '通勤心情',
+        tag2: '失眠互助',
+        tag3: '周末复盘',
+        tag4: '职场压力释放',
+        topic1Type: '专题 · 今日感受',
+        topic1Title: '“今天有点累，但我没有放弃自己”',
+        topic1Body: '下班后散步 15 分钟，情绪从 4/10 回到 6/10。谢谢大家的陪伴建议。',
+        topic2Type: '专题 · 生活记录',
+        topic2Title: '“慢慢来，也是一种前进”',
+        topic2Body: '本周睡眠节奏更稳定了，分享我的晚间放松清单，希望对你有帮助。',
+        topic3Type: '专题 · 成长复盘',
+        topic3Title: '“情绪不是敌人，是信号”',
+        topic3Body: '学会给压力命名后，我更知道自己真正需要什么。',
+        expertTag: '专家分析',
+        expertTitle: '专业、平静、可信赖的心理视角',
+        expertDesc: '基于你的连续记录，从情绪波动、压力来源与恢复行为三个层面给出建议，不贴标签，不制造恐惧。',
+        expertPoint1: '近期压力高峰多出现在周一晚间，建议提前安排“过渡时段”。',
+        expertPoint2: '运动后 2 小时内情绪显著回升，可作为稳定策略保留。',
+        expertPoint3: '建议下周加入 2 次 10 分钟呼吸练习，降低躯体紧张反应。',
+        reportHead: '专家报告预览',
+        reportTitle: '本周心理状态摘要',
+        reportBody: '你的整体情绪较上周趋稳，负面峰值出现频次下降。工作场景触发依然明显，但恢复速度提升，说明自我调节正在生效。',
+        reportTag1: '节律改善',
+        reportTag2: '恢复增强',
+        reportTag3: '压力可控',
+        updatesTitle: '日志更新状况',
+        updatesDesc: '持续打磨使用体验，保持稳定与温柔并行。',
+        u1t: '新增情绪趋势周视图',
+        u1d: '支持按周回看情绪波动和关键触发事件，复盘更清晰。',
+        u2t: '社区专题排序优化',
+        u2d: '高互动、高支持度内容优先展示，讨论更聚焦更友好。',
+        u3t: '专家分析语言升级',
+        u3d: '分析文本更平静、易懂，并增加行动建议的可执行性。',
+        footerBrand: '小刺猬陪你记录情绪、生活与成长',
+        footerTop: '回到顶部',
+        footerLang: '语言切换：右上角 EN / 中文'
+      },
+      en: {
+        brandSub: 'A gentle record of every day',
+        navFeatures: 'Features',
+        navInsights: 'Insights',
+        navCommunity: 'Community',
+        navExpert: 'Expert View',
+        navUpdates: 'Updates',
+        heroTag: 'Emotional Companion · Life Logging · Mental Insights',
+        heroTitle1: 'With our little hedgehog,',
+        heroTitle2: 'keep today safe in your heart',
+        heroDesc: 'A calm growth app combining emotion journaling, daily life logging, community expression, and professional insights.',
+        androidBtn: 'Download for Android',
+        iosBtn: 'Download for iOS',
+        heroTrust1: 'Gentle reminders, never anxiety-driven',
+        heroTrust2: 'Logging and reflection feel intuitive',
+        ipLabel: 'Brand IP',
+        ipName: 'Little Hedgehog · Safe Companion',
+        ipBadge: 'Main Visual',
+        shotA: 'App Preview Slot A',
+        shotB: 'App Preview Slot B',
+        nestHint: 'A safe little nest you can return to anytime',
+        featuresTitle: 'Four core strengths, soft but powerful',
+        featuresDesc: 'From logging to insight, from solitude to connection.',
+        f1t: 'Multi-dimensional + free-text logging',
+        f1d: 'Track work, life, and mood together, then write freely when words are needed.',
+        f2t: 'Daily charts and summaries',
+        f2d: 'Entries are transformed into readable trends and visual recaps.',
+        f3t: 'Topic-based community sharing',
+        f3d: 'Share real moments, receive resonance, support, and practical responses.',
+        f4t: 'Expert mental-health perspective',
+        f4d: 'Long-term records become calm, actionable expert-level guidance.',
+        chartTag: 'Charts & Insights',
+        chartTitle: 'How daily logs become clear visuals',
+        chartDesc: 'Mood, energy, and event tags are organized into friendly visual summaries for easy reflection.',
+        chartMetric1: 'Streak',
+        days: 'days',
+        chartMetric2: 'Stability',
+        mockTrend: 'Mood Trend (mock)',
+        mockDonut: 'Mood Composition (mock)',
+        communityTitle: 'A warm community for everyday sharing',
+        communityDesc: 'Express yourself by topic, and feel seen in a kind space.',
+        tag1: 'Commute Mood',
+        tag2: 'Sleep Support',
+        tag3: 'Weekend Reflection',
+        tag4: 'Work Stress Release',
+        topic1Type: 'Topic · Today I feel',
+        topic1Title: '"I felt tired today, but I still chose myself"',
+        topic1Body: 'A 15-minute walk after work helped my mood rise from 4/10 to 6/10.',
+        topic2Type: 'Topic · Life Notes',
+        topic2Title: '"Slow progress is still progress"',
+        topic2Body: 'My sleep rhythm is steadier this week. Sharing my evening wind-down list.',
+        topic3Type: 'Topic · Growth Review',
+        topic3Title: '"Emotion is not the enemy, it is a signal"',
+        topic3Body: 'Naming my stress helped me understand what I actually need.',
+        expertTag: 'Expert Analysis',
+        expertTitle: 'Professional, calm, and trustworthy insight',
+        expertDesc: 'Based on ongoing records, we provide non-judgmental guidance on mood shifts, stress triggers, and recovery behaviors.',
+        expertPoint1: 'Stress peaks mostly appear on Monday evenings. Add a transition buffer before night.',
+        expertPoint2: 'Mood rises significantly within 2 hours after exercise. Keep this routine.',
+        expertPoint3: 'Add two 10-minute breathing sessions next week to reduce tension responses.',
+        reportHead: 'Report Preview',
+        reportTitle: 'Weekly Mental State Summary',
+        reportBody: 'Your overall mood became more stable than last week, with fewer negative spikes and faster recovery.',
+        reportTag1: 'Rhythm Improved',
+        reportTag2: 'Recovery Stronger',
+        reportTag3: 'Stress Manageable',
+        updatesTitle: 'Changelog',
+        updatesDesc: 'We keep refining the experience with stability and warmth.',
+        u1t: 'Added weekly mood trend view',
+        u1d: 'Review emotional fluctuation and triggers by week with higher clarity.',
+        u2t: 'Community topic sorting improved',
+        u2d: 'High-support and high-quality discussions are now surfaced first.',
+        u3t: 'Expert language refinement',
+        u3d: 'Analysis tone is clearer, calmer, and more actionable.',
+        footerBrand: 'A hedgehog companion for emotion, life, and growth',
+        footerTop: 'Back to top',
+        footerLang: 'Language switch: top-right EN / 中文'
+      }
+    };
+
+    let currentLang = 'zh';
+    const langBtn = document.getElementById('langBtn');
+
+    function applyLang(lang) {
+      document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+      document.querySelectorAll('[data-i18n]').forEach((el) => {
+        const key = el.getAttribute('data-i18n');
+        if (copy[lang][key]) el.textContent = copy[lang][key];
+      });
+      langBtn.textContent = lang === 'zh' ? 'EN' : '中文';
+    }
+
+    langBtn.addEventListener('click', () => {
+      currentLang = currentLang === 'zh' ? 'en' : 'zh';
+      applyLang(currentLang);
+    });
+
+    applyLang(currentLang);
+  </script>
 </body>
 </html>
